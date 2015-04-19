@@ -4,58 +4,52 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 
 module.exports = yeoman.generators.Base.extend({
-  initializing: function () {
-    this.pkg = require('../package.json');
-  },
+	initializing: function () {
+		this.pkg = require('../package.json');
+	},
 
-  prompting: function () {
-    var done = this.async();
+	prompting: function () {
+		var done = this.async();
 
-    // Have Yeoman greet the user.
-    this.log(yosay(
-      'Welcome to the world-class ' + chalk.red('Harbour') + ' generator!'
-    ));
+		// Have Yeoman greet the user.
+		this.log(yosay(
+			'You\'re about to install ' + chalk.blue('Harbour') + '!'
+		));
 
-    var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+		var prompts = [{
+			type: 'confirm',
+			name: 'someOption',
+			message: 'Would you like to enable this option?',
+			default: true
+		}];
 
-    this.prompt(prompts, function (props) {
-      this.props = props;
-      // To access props later use this.props.someOption;
+		this.prompt(prompts, function (props) {
+			this.props = props;
+			// To access props later use this.props.someOption;
 
-      done();
-    }.bind(this));
-  },
+			done();
+		}.bind(this));
+	},
 
-  writing: {
-    app: function () {
-      this.fs.copy(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json')
-      );
-      this.fs.copy(
-        this.templatePath('_bower.json'),
-        this.destinationPath('bower.json')
-      );
-    },
+	writing: function() {
+		this.files = this.expandFiles('**/*', { cwd: this.sourceRoot(), dot: true });
 
-    projectfiles: function () {
-      this.fs.copy(
-        this.templatePath('editorconfig'),
-        this.destinationPath('.editorconfig')
-      );
-      this.fs.copy(
-        this.templatePath('jshintrc'),
-        this.destinationPath('.jshintrc')
-      );
-    }
-  },
+		var ignores = [
+			'.git',
+			'LICENSE',
+			'README.md',
+		];
 
-  install: function () {
-    this.installDependencies();
-  }
+		this.files.forEach(function(file) {
+			if (ignores.indexOf(file) !== -1) {
+				return;
+			}
+
+			this.copy(file, file);
+		}, this);   
+	},
+
+	install: function () {
+		this.installDependencies();
+	}
 });
