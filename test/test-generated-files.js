@@ -6,9 +6,8 @@ var helpers = require('yeoman-generator').test;
 var os = require('os');
 
 describe('harbour:app', function () {
-  var projectName = 'testproject';
   var mockPrompts = {
-    projectName: projectName,
+    projectName: 'Testproject',
     isPrivate: true
   };
 
@@ -19,21 +18,18 @@ describe('harbour:app', function () {
       .on('end', done);
   });
 
-  it('should generate the same projectName in every file', function () {
+  it('should create files', function () {
     assert.file([
       'bower.json',
-      'package.json'
-    ]);
-
-    assert.fileContent(
       'package.json',
-      new RegExp(projectName)
-    );
-
-    assert.fileContent(
-      'bower.json',
-      new RegExp(projectName)
-    );
-
+      '.editorconfig',
+      '.jshintrc',
+      '.csscomb.json',
+      '.csslintrc',
+      '.gitignore',
+      '.jshintignore',
+      'gulpfile.js',
+      'index.js'
+    ]);
   });
 });
