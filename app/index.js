@@ -86,19 +86,42 @@ module.exports = yeoman.generators.Base.extend({
 			}, this);   
 		},
 		parse: function () {
+			var self = this;
 
-			// Read package data
-			var packageData = this.fs.readJSON('package.json');
+			// Parse NPM package file
+			(function parseNPMPackage() {
+				// Read package data
+				var packageData = self.fs.readJSON('package.json');
 
-			// Overwrite package name with project name
-			packageData.name = slug(this.props.projectName, { lower: true });
-			packageData.description = this.props.projectName;
+				// Overwrite package name with project name
+				packageData.name = slug(self.props.projectName, { lower: true });
+				packageData.description = self.props.projectName;
+				packageData.version = '0.1.0';
 
-			if(this.props.isPrivate) {
-				packageData.private = true;
-			}
+				if(self.props.isPrivate) {
+					packageData.private = true;
+				}
 
-			this.fs.writeJSON('package.json', packageData);
+				self.fs.writeJSON('package.json', packageData);
+			})();
+
+			// Parse Bower package file
+			(function parseBower() {
+				// Read package data
+				var bowerData = self.fs.readJSON('bower.json');
+
+				// Overwrite package name with project name
+				bowerData.name = slug(self.props.projectName, { lower: true });
+				bowerData.description = self.props.projectName;
+				bowerData.version = '0.1.0';
+
+				if(self.props.isPrivate) {
+					bowerData.private = true;
+				}
+
+				self.fs.writeJSON('bower.json', bowerData);
+			})();
+
 		}
 	},
 
