@@ -26,7 +26,7 @@ module.exports = yeoman.generators.Base.extend({
 			name: 'isPrivate',
 			message: 'Is this a private project?',
 			default: true
-		}/*,
+		},
 		{
 			type: 'confirm',
 			name: 'addFramework',
@@ -34,9 +34,9 @@ module.exports = yeoman.generators.Base.extend({
 			default: false
 		},
 		{
-			type: 'checkbox',
-			name: 'framework',
-			message: 'Which framework would you like to include?',
+			type: 'list',
+			name: 'jsFramework',
+			message: 'Which JavaScript framework would you like to include?',
 			when: function (props) {
 				return props.addFramework;
 			},
@@ -47,10 +47,10 @@ module.exports = yeoman.generators.Base.extend({
 				},
 				{
 					name: 'Backbone',
-					value: 'Backbone'
+					value: 'backbone'
 				}
 			]
-		}*/];
+		}];
 
 		this.prompt(prompts, function (props) {
 			this.props = props;
@@ -123,6 +123,19 @@ module.exports = yeoman.generators.Base.extend({
 			})();
 
 		}
+		
+	},
+
+	packages: function() {
+
+		var bowerPackages = [];
+
+		bowerPackages = bowerPackages.concat(this.props.framework);
+
+		this.bowerInstall(bowerPackages, {
+			save: true
+		});
+	
 	},
 
 	install: function () {
