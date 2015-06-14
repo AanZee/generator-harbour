@@ -1,4 +1,4 @@
-# generator-harbour ![build status](https://travis-ci.org/AanZee/generator-harbour.svg?branch=master)
+# generator-harbour [![Build Status](https://travis-ci.org/AanZee/generator-harbour.svg?branch=master)](https://travis-ci.org/AanZee/generator-harbour)
 Yeoman generator for the [Harbour project](https://github.com/AanZee/harbour/) boilerplate
 
 ## Install
